@@ -114,7 +114,6 @@
 				B1BFE0876B983399B2486B0D /* Pods-undeveloped-undevelopedTests.debug.xcconfig */,
 				2388F90AC92CD07720C1182F /* Pods-undeveloped-undevelopedTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
