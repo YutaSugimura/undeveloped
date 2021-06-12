@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   View,
@@ -7,10 +7,51 @@ import {
   Platform,
 } from 'react-native';
 import MapView, {PROVIDER_GOOGLE, PROVIDER_DEFAULT} from 'react-native-maps';
+import Geolocation from 'react-native-geolocation-service';
 
 const isIos = Platform.OS === 'ios' ? true : false;
 
 const App: React.VFC = () => {
+  const [hasLocationPermission, setHasLocationPermission] =
+    useState<boolean>(false);
+  const [currentPosition, setCurrentPosition] = useState<[number, number]>([
+    0, 0,
+  ]);
+
+  useEffect(() => {
+    let isMounted = true;
+    const init = async () => {
+      const permission = await Geolocation.requestAuthorization('whenInUse');
+      if (permission === 'granted' && isMounted) {
+        setHasLocationPermission(true);
+      }
+    };
+
+    if (isIos) {
+      init();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (hasLocationPermission) {
+      Geolocation.getCurrentPosition(
+        position => {
+          setCurrentPosition([
+            position.coords.latitude,
+            position.coords.longitude,
+          ]);
+          console.log(position);
+        },
+        error => console.log(error.code, error.message),
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      );
+    }
+  }, [hasLocationPermission]);
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -18,8 +59,8 @@ const App: React.VFC = () => {
           provider={isIos ? PROVIDER_DEFAULT : PROVIDER_GOOGLE}
           style={styles.map}
           region={{
-            latitude: 35.6582072,
-            longitude: 139.7447333,
+            latitude: currentPosition[0],
+            longitude: currentPosition[1],
             latitudeDelta: 0.0514,
             longitudeDelta: 0.0121,
           }}

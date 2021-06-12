@@ -14,6 +14,7 @@
     "react": "17.0.1",
     "react-native": "0.64.1",
     "react-native-config": "^1.4.2",
+    "react-native-geolocation-service": "^5.3.0-beta.1",
     "react-native-maps": "^0.28.0"
   },
   "devDependencies": {

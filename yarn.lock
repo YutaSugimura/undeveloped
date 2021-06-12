@@ -5344,6 +5344,11 @@ react-native-config@^1.4.2:
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.4.2.tgz#cc39f22ed72c5cb06af1adf0ba70ef01593900b4"
   integrity sha512-iTvCvThvFTH7SdiBcsxYtpLy86zglsh51ZBqFPPZ75tdrQMdlRnDNnb86kNjQf03KT0qs1nCMLRejfPMIim8iA==
 
+react-native-geolocation-service@^5.3.0-beta.1:
+  version "5.3.0-beta.1"
+  resolved "https://registry.yarnpkg.com/react-native-geolocation-service/-/react-native-geolocation-service-5.3.0-beta.1.tgz#91b78e8f87caa0fd4fd1a2384bb48a6309ec715a"
+  integrity sha512-VfocBBSrUfXAdMikWYy8IY9ndzzn0uOM15ncs7DUMQvCpnayC92PJtRSZrSGKEuUubUkcXRqvZIMowZDMwHGVA==
+
 react-native-maps@^0.28.0:
   version "0.28.0"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.28.0.tgz#1913dd4977652ddfc317d39c7cb7d78a8e513784"
