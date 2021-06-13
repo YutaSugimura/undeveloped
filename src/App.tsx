@@ -6,7 +6,11 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import MapView, {PROVIDER_GOOGLE, PROVIDER_DEFAULT} from 'react-native-maps';
+import MapView, {
+  PROVIDER_GOOGLE,
+  PROVIDER_DEFAULT,
+  Region,
+} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 
 const isIos = Platform.OS === 'ios' ? true : false;
@@ -37,20 +41,32 @@ const App: React.VFC = () => {
   }, []);
 
   useEffect(() => {
+    let interval: any = null;
+
     if (hasLocationPermission) {
-      Geolocation.getCurrentPosition(
-        position => {
-          setCurrentPosition([
-            position.coords.latitude,
-            position.coords.longitude,
-          ]);
-          console.log(position);
-        },
-        error => console.log(error.code, error.message),
-        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-      );
+      interval = setInterval(() => {
+        Geolocation.getCurrentPosition(
+          position => {
+            setCurrentPosition([
+              position.coords.latitude,
+              position.coords.longitude,
+            ]);
+            console.log(position);
+          },
+          error => console.log(error.code, error.message),
+          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+        );
+      }, 1000);
     }
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [hasLocationPermission]);
+
+  const onRegionChange = (region: Region) => {
+    console.log(region);
+  };
 
   return (
     <SafeAreaView>
@@ -64,6 +80,7 @@ const App: React.VFC = () => {
             latitudeDelta: 0.0514,
             longitudeDelta: 0.0121,
           }}
+          onRegionChange={onRegionChange}
         />
       </View>
     </SafeAreaView>
