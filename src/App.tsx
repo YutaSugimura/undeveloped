@@ -41,26 +41,25 @@ const App: React.VFC = () => {
   }, []);
 
   useEffect(() => {
-    let interval: any = null;
+    let interval: number | null = null;
 
     if (hasLocationPermission) {
-      interval = setInterval(() => {
-        Geolocation.getCurrentPosition(
-          position => {
-            setCurrentPosition([
-              position.coords.latitude,
-              position.coords.longitude,
-            ]);
-            console.log(position);
-          },
-          error => console.log(error.code, error.message),
-          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-        );
-      }, 1000);
+      interval = Geolocation.watchPosition(
+        position => {
+          setCurrentPosition([
+            position.coords.latitude,
+            position.coords.longitude,
+          ]);
+        },
+        error => console.log(error.code, error.message),
+        {enableHighAccuracy: true},
+      );
     }
 
     return () => {
-      clearInterval(interval);
+      if (interval !== null) {
+        Geolocation.clearWatch(interval);
+      }
     };
   }, [hasLocationPermission]);
 
