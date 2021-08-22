@@ -7,6 +7,7 @@ import {
   Platform,
 } from 'react-native';
 import MapView, {
+  MarkerAnimated,
   PROVIDER_GOOGLE,
   PROVIDER_DEFAULT,
   Region,
@@ -79,8 +80,15 @@ const App: React.VFC = () => {
             latitudeDelta: 0.0514,
             longitudeDelta: 0.0121,
           }}
-          onRegionChange={onRegionChange}
-        />
+          onRegionChange={onRegionChange}>
+          <MarkerAnimated
+            coordinate={{
+              latitude: currentPosition[0],
+              longitude: currentPosition[1],
+            }}
+            pinColor="#0038EF"
+          />
+        </MapView>
       </View>
     </SafeAreaView>
   );
